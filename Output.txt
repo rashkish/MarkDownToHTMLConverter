@@ -1,0 +1,32 @@
+# Header one
+
+Hello there
+
+How are you?
+What's going on?
+Hope all is well!
+
+## Another Header
+
+This is a paragraph [with an inline link](http://google.com). Neat, eh?
+
+## This is a header [with a link](http://yahoo.com)
+
+[just a link](http://google.com)
+
+ ************ MARKDOWN -> HTML ************* 
+<h1>Header one</h1>
+
+<p>Hello there</p>
+
+<p>How are you?
+What's going on?
+Hope all is well!</p>
+
+<h2>Another Header</h2>
+
+<p>This is a paragraph <a href="http://google.com">with an inline link</a>. Neat, eh?</p>
+
+<h2>This is a header <a href="http://yahoo.com">with a link</a></h2>
+
+<p><a href="http://google.com">just a link</a></p>
