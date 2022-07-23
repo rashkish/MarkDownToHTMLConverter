@@ -9,6 +9,9 @@ public class Helper {
 
     /**
      *
+     * closeCurrentParagraph gets the index of the last paragraph,
+     * replaces that with the output from closeCurrentParagraph(paragraphTagStack)
+     *
      * @param htmlStringBuilder
      * @param paragraphTagStack
      * @return
