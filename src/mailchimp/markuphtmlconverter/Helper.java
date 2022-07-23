@@ -7,6 +7,12 @@ import java.util.stream.IntStream;
 
 public class Helper {
 
+    /**
+     *
+     * @param htmlStringBuilder
+     * @param paragraphTagStack
+     * @return
+     */
     public static StringBuilder closeCurrentParagraph(StringBuilder htmlStringBuilder, List<String> paragraphTagStack) {
         int last = htmlStringBuilder.lastIndexOf("\n");
         if (last >= 0) {
@@ -16,6 +22,9 @@ public class Helper {
     }
 
     /**
+     * computeLink does a regex match for link ( eg: [with an inline link](http://google.com))
+     * and groups the matches to produce the HTML format (eg : <a href="http://google.com">with an inline link</a>)
+     *
      * @param line
      * @return
      */
@@ -33,6 +42,9 @@ public class Helper {
     }
 
     /**
+     * computeLink does a regex match for Title ( until H6) ( eg: ## Another Header)
+     * and groups the matches to produce the HTML format (eg :<h2>Another Header</h2>)
+     *
      * @param line
      * @return
      */
@@ -48,11 +60,15 @@ public class Helper {
     }
 
     /**
+     * computeParagraph computes if the given line is beginning of a new paragraph
+     * by getting the index of "p" from the stack.
+     *
+     * If the index is -1, prepend the paragraph with <p> and add "p" to the paragraph stack
      * @param line
      * @return
      */
     public static String computeParagraph(String line, List<String> paragraphTagStack) {
-        int baliseIndex = getWeakBaliseIndex(Regex.HtmlRegexConstruct.PARAGRAPH_HTML_TAG.getValue(), paragraphTagStack);
+        int baliseIndex = getParagraphStackIndex(Regex.HtmlRegexConstruct.PARAGRAPH_HTML_TAG.getValue(), paragraphTagStack);
         if (baliseIndex == -1) {
             paragraphTagStack.add(Regex.HtmlRegexConstruct.PARAGRAPH_HTML_TAG.getValue());
             return String.format("<%s>%s", Regex.HtmlRegexConstruct.PARAGRAPH_HTML_TAG.getValue(), line);
@@ -61,10 +77,12 @@ public class Helper {
     }
 
     /**
+     * getParagraphStackIndex gets the index of "p" in the paragraph stack
+     *
      * @param balise
      * @return
      */
-    public static int getWeakBaliseIndex(String balise, List<String> paragraphTagStack) {
+    public static int getParagraphStackIndex(String balise, List<String> paragraphTagStack) {
         return IntStream.range(0, paragraphTagStack.size())
                 .filter(index -> paragraphTagStack.get(index).equals(balise))
                 .findFirst()
@@ -73,7 +91,12 @@ public class Helper {
 
 
     /**
-     * @return
+     * closeCurrentParagraph computes if the given line is end of an existing paragraph
+     * by getting the index of "p" from the stack.
+     *
+     * If the index > -1, prepend the paragraph with <p> and remove "p" from the paragraph stack
+     *
+     * @return String
      */
     public static String closeCurrentParagraph(List<String> paragraphTagStack) {
         StringBuilder stringBuilder = new StringBuilder();
