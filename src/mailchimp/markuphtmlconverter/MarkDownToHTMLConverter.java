@@ -56,6 +56,8 @@ public class MarkDownToHTMLConverter {
         fw.write(input + "\n ************ MARKDOWN -> HTML ************* \n" + result);
         fw.close();
 
+        System.out.println(" See "+ currentDirectory +"/Output.txt for the processed markdown converted to HTML");
+
     }
 
 
@@ -139,7 +141,7 @@ public class MarkDownToHTMLConverter {
                 //   3 a. If the current line is a new line which is empty,
                 //      verify that a multiline paragraph (if applicable)
                 //      has the correctly closed the tag </p>.
-                if (!previousLine.isEmpty() && Helper.getWeakBaliseIndex("p", paragraphTagStack) != -1) {
+                if (!previousLine.isEmpty() && Helper.getParagraphStackIndex("p", paragraphTagStack) != -1) {
 
                     // 3 b. If the previous line is not empty, and the current line is empty,
                     //      check the stack for any unclosed <p> and close accordingly.
@@ -156,7 +158,8 @@ public class MarkDownToHTMLConverter {
             else if (line.matches(MarkDownRegexConstruct.TITLE_MARKDOWN_MATCHER.getValue())) {
 
                 // 4 a. Verifies if previous line was a  paragraph, if yes, close </p>
-                if (!previousLine.isEmpty() && Helper.getWeakBaliseIndex("p", paragraphTagStack) != -1) {
+                if (!previousLine.isEmpty() &&
+                        Helper.getParagraphStackIndex(HtmlRegexConstruct.PARAGRAPH_HTML_TAG.getValue(), paragraphTagStack) != -1) {
                     htmlSb = Helper.closeCurrentParagraph(htmlSb, paragraphTagStack);
                     previousLine = "";
                 }
